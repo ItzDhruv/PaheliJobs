@@ -22,7 +22,7 @@ export default function Footer() {
               <a href="#" className="text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
                 <i className="ri-linkedin-fill w-6 h-6 flex items-center justify-center"></i>
               </a>
-              <a href="#" className="text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+              <a href="https://github.com/PaheliJobs" className="text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
                 <i className="ri-github-fill w-6 h-6 flex items-center justify-center"></i>
               </a>
             </div>
