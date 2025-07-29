@@ -26,6 +26,7 @@ export default function RootLayout({
           <main className="flex-1">
             {children}
           </main>
+          <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1168103626602127" crossOrigin="anonymous"></script>
           <Footer />
         </div>
       </body>
