@@ -10,7 +10,7 @@ const inter = Inter({ subsets: ['latin'] });
 export const metadata: Metadata = {
   title: 'PaheliJob - Find Your Dream Tech Job',
   description: 'Discover thousands of tech job opportunities in fullstack development, data science, and more. Your next career move starts here.',
-  keywords: 'jobs, tech jobs, fullstack, data science, frontend, backend, careers',
+  keywords: 'pahelijob, jobs, tech jobs, fullstack, data science, frontend, backend, careers',
 };
 
 export default function RootLayout({
