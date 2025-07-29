@@ -22,6 +22,7 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1168103626602127" crossOrigin="anonymous"></script>
+        <meta name="google-site-verification" content="fUVjDK069ImDkI0uFWu1-uy_GYeCM_cvET7ztuLuYFc" />
       </head>
       <body className={`${inter.className} bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100`}>
         <div className="min-h-screen flex flex-col">
