@@ -20,13 +20,16 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1168103626602127" crossOrigin="anonymous"></script>
+      </head>
       <body className={`${inter.className} bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100`}>
         <div className="min-h-screen flex flex-col">
           <Header />
           <main className="flex-1">
             {children}
           </main>
-          <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1168103626602127" crossOrigin="anonymous"></script>
+          {/* AdSense script moved to <head> */}
           <Footer />
         </div>
       </body>

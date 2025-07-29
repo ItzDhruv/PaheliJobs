@@ -4,7 +4,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { getAllJobs } from '@/lib/jobsData';
-import AdSenseAd from '@/components/AdSenseAd';
+
 import JobApplicationModal from '@/components/JobApplicationModal';
 
 interface JobDetailProps {
@@ -244,7 +244,7 @@ export default function JobDetail({ jobId }: JobDetailProps) {
 
           <div className="lg:col-span-1">
             <div className="sticky top-24 space-y-6">
-              <AdSenseAd slot="job-detail-sidebar" format="rectangle" />
+            
 
               <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
@@ -271,7 +271,7 @@ export default function JobDetail({ jobId }: JobDetailProps) {
                 </div>
               </div>
 
-              <AdSenseAd slot="job-detail-bottom" format="rectangle" />
+            
             </div>
           </div>
         </div>

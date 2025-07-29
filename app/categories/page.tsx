@@ -4,7 +4,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import JobCard from '@/components/JobCard';
-import AdSenseAd from '@/components/AdSenseAd';
+
 import { getAllJobs } from '@/lib/jobsData';
 
 // Define the Job type based on jobsData
@@ -164,7 +164,7 @@ export default function CategoriesPage() {
             </div>
             
             <div className="text-center">
-              <AdSenseAd slot="categories-bottom" format="rectangle" />
+            
             </div>
           </div>
         ) : (
@@ -209,7 +209,7 @@ export default function CategoriesPage() {
                 </div>
                 
                 <div className="mt-6">
-                  <AdSenseAd slot="categories-sidebar" format="rectangle" />
+                 
                 </div>
               </div>
             </div>
@@ -231,7 +231,6 @@ export default function CategoriesPage() {
                     <JobCard job={job} />
                     {(index + 1) % 3 === 0 && (
                       <div className="my-6">
-                        <AdSenseAd slot="categories-inline" format="rectangle" />
                       </div>
                     )}
                   </div>

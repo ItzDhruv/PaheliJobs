@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import JobCard from '@/components/JobCard';
 import SearchFilters from '@/components/SearchFilters';
-import AdSenseAd from '@/components/AdSenseAd';
+
 import { getAllJobs } from '@/lib/jobsData';
 
 // Job type based on JobCard and jobsData 
@@ -149,7 +149,7 @@ export default function FindJobs() {
                   <JobCard job={job} />
                   {(index + 1) % 5 === 0 && (
                     <div className="my-6">
-                      <AdSenseAd slot="inline-jobs" format="rectangle" />
+                  
                     </div>
                   )}
                 </div>
@@ -199,7 +199,7 @@ export default function FindJobs() {
           {/* Sidebar */}
           <div className="lg:col-span-1">
             <div className="sticky top-24 space-y-6">
-              <AdSenseAd slot="sidebar-top" format="rectangle" />
+              
               
               <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
@@ -227,7 +227,6 @@ export default function FindJobs() {
                 </div>
               </div>
 
-              <AdSenseAd slot="sidebar-bottom" format="rectangle" />
             </div>
           </div>
         </div>
