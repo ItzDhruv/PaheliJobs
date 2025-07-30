@@ -1,7 +1,8 @@
-
 'use client';
 
 import Link from 'next/link';
+import { useState, useEffect } from 'react';
+import { fetchCompanyLogoWithFallback, getCachedLogo } from '@/lib/logoService';
 
 interface JobCardProps {
   job: {
@@ -21,6 +22,34 @@ interface JobCardProps {
 }
 
 export default function JobCard({ job }: JobCardProps) {
+  const [companyLogo, setCompanyLogo] = useState<string>(job.company.charAt(0).toUpperCase());
+  const [logoLoading, setLogoLoading] = useState(true);
+
+  useEffect(() => {
+    const loadLogo = async () => {
+      try {
+        // Check if logo is already cached
+        const cachedLogo = getCachedLogo(job.company);
+        if (cachedLogo) {
+          setCompanyLogo(cachedLogo);
+          setLogoLoading(false);
+          return;
+        }
+
+        // Fetch logo using Google Search API
+        const logo = await fetchCompanyLogoWithFallback(job.company);
+        setCompanyLogo(logo);
+      } catch (error) {
+        console.warn(`Failed to load logo for ${job.company}:`, error);
+        setCompanyLogo(job.company.charAt(0).toUpperCase());
+      } finally {
+        setLogoLoading(false);
+      }
+    };
+
+    loadLogo();
+  }, [job.company]);
+
   const shareJob = () => {
     if (navigator.share) {
       navigator.share({
@@ -39,8 +68,26 @@ export default function JobCard({ job }: JobCardProps) {
       <div className="flex items-start justify-between">
         <div className="flex-1">
           <div className="flex items-center space-x-3 mb-3">
-            <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center text-white font-semibold">
-              {job.company.charAt(0).toUpperCase()}
+            <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center text-white font-semibold relative overflow-hidden">
+              {logoLoading ? (
+                <div className="animate-pulse w-8 h-8 bg-gray-300 rounded"></div>
+              ) : companyLogo.startsWith('http') ? (
+                <img
+                  src={companyLogo}
+                  alt={`${job.company} logo`}
+                  className="w-12 h-12 rounded-lg object-contain bg-white p-1"
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    target.style.display = 'none';
+                    const parent = target.parentElement;
+                    if (parent) {
+                      parent.innerHTML = `<span class="text-white font-semibold">${job.company.charAt(0).toUpperCase()}</span>`;
+                    }
+                  }}
+                />
+              ) : (
+                <span className="text-lg">{companyLogo}</span>
+              )}
             </div>
             <div>
               <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">

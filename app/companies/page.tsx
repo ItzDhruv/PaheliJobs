@@ -24,6 +24,36 @@ interface Job {
   companyDescription: string;
 }
 
+const BRANDFETCH_API_KEY = '1idtYqC_3u0FaxGZ66B';
+
+// Add a set of random logo URLs
+const RANDOM_LOGOS = [
+  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTiK2i3U6IFCskhHepeoPbOxGb5yMeUWnVOkg&s', // Building
+  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRY_AbrYwEx9Ry2kegwjaiU12tXdBZEx6eZGg&s', // User avatar
+  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSTDYrQMTTrvfJNGoYBeAXsjwRIdGpCD3AvVw&s', // Briefcase
+  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRgwKGHwVlsDYqdbOaRyrlKl_YHauQ5TLnYHA&s', // Rocket
+  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTGG4DvDkY2YEkM7mRlJhBGz86080vUXWimiQ&s',
+  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQTAWrtAuF2VNfNTN3qD8l2dPMwAVG5ds5QaA&s',
+  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcThWhQGaeEIZJI8fxD9xbgGAZZ3ObvKO-kenw&s',
+  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ6K9EjJeMAq_VbYAEe87u_h2p1V5z2Seua1Q&s',
+  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSoFSTRKQ_P4UQCC2NWcJw7zy5fH5M3jnC-xg&s',
+  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRh9IjNbgKJ8xqMxjM2lH49NgLRdQ44EjsyDA&s',
+  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQyWN150bkFW7HuP4a7uuf9yb8fIIM7CXEv9g&s',
+  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1G8XM5TyDrInT4X3O5K1jw2NGOQJQ9MEzgA&s',
+  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvxrJNmw8JgtVdVBhz7AfwHSH_HwWF5SLYJQ&s',
+  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS55Dgt5GHFYIqcS5M0IPvsXr84rdp76w4m1g&s',
+  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQkiDfeTlsagVKoRWx4fka4Ki1RPcuZKzAVeA&s',
+  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSTDYrQMTTrvfJNGoYBeAXsjwRIdGpCD3AvVw&s',
+  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtuhB8g9-qyuI9z7Pvf3D6OTucfftg1AvKAg&s',
+  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQTAWrtAuF2VNfNTN3qD8l2dPMwAVG5ds5QaA&s',
+  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQy8bVhD9a2wtsrrJ3wJaRxZi1PCbeuQnUKw&s',
+];
+
+// Assign unique random logo to each company (cycle if more companies than logos)
+function getUniqueLogo(index: number) {
+  return RANDOM_LOGOS[index % RANDOM_LOGOS.length];
+}
+
 export default function CompaniesPage() {
   const [jobs, setJobs] = useState<Job[]>([]);
   const [companies, setCompanies] = useState<{ name: string; count: number; logo: string }[]>([]);
@@ -38,7 +68,7 @@ export default function CompaniesPage() {
   useEffect(() => {
     const allJobs = getAllJobs();
     setJobs(allJobs);
-    
+
     // Get unique companies with job counts
     const companyMap = new Map();
     allJobs.forEach(job => {
@@ -48,16 +78,31 @@ export default function CompaniesPage() {
         companyMap.set(job.company, 1);
       }
     });
-    
+
     const companiesArray = Array.from(companyMap.entries()).map(([name, count]) => ({
       name,
       count,
-      logo: name.charAt(0).toUpperCase()
+      logo: '' // will be filled after fetch
     })).sort((a, b) => b.count - a.count);
-    
-    setCompanies(companiesArray);
-    setFilteredCompanies(companiesArray);
-    setLoading(false);
+
+    // Fetch logos from Brandfetch
+    Promise.all(
+      companiesArray.map(async (company, idx) => {
+        try {
+          const res = await fetch(`https://api.brandfetch.io/v2/search/${encodeURIComponent(company.name)}?c=${BRANDFETCH_API_KEY}`);
+          if (!res.ok) throw new Error('No logo');
+          const data = await res.json();
+          const logo = data && data[0] && data[0].logos && data[0].logos.length > 0 ? data[0].logos[0].formats[0].src : '';
+          return { ...company, logo: logo || getUniqueLogo(idx) };
+        } catch {
+          return { ...company, logo: getUniqueLogo(idx) };
+        }
+      })
+    ).then((companiesWithLogos) => {
+      setCompanies(companiesWithLogos);
+      setFilteredCompanies(companiesWithLogos);
+      setLoading(false);
+    });
   }, []);
 
   // Filter companies based on search term
@@ -202,7 +247,15 @@ export default function CompaniesPage() {
                       >
                         <div className="flex items-center space-x-3">
                           <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center text-white font-semibold text-sm">
-                            {company.logo}
+                            {company.logo.startsWith('http') ? (
+                              <img
+                                src={company.logo}
+                                alt={company.name + ' logo'}
+                                className="w-8 h-8 rounded-lg object-contain bg-white"
+                              />
+                            ) : (
+                              <span>{company.logo}</span>
+                            )}
                           </div>
                           <div className="flex-1 min-w-0">
                             <p className="font-medium truncate">{company.name}</p>
@@ -235,7 +288,15 @@ export default function CompaniesPage() {
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-4">
                       <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center text-white font-bold text-xl">
-                        {selectedCompany.charAt(0).toUpperCase()}
+                        {selectedCompany && companies.find(c => c.name === selectedCompany)?.logo?.startsWith('http') ? (
+                          <img
+                            src={companies.find(c => c.name === selectedCompany)?.logo}
+                            alt={selectedCompany + ' logo'}
+                            className="w-16 h-16 rounded-lg object-contain bg-white"
+                          />
+                        ) : (
+                          <span>{selectedCompany.charAt(0).toUpperCase()}</span>
+                        )}
                       </div>
                       <div>
                         <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2">
