@@ -21,8 +21,12 @@ export default function Home() {
       <section className="py-24 px-4 text-center text-white">
         <div className="max-w-3xl mx-auto">
           <h1 className="text-5xl md:text-6xl font-extrabold mb-6 drop-shadow-lg">
-            Welcome to <span className="text-yellow-300">PaheliJob</span>
-          </h1>
+  Welcome to{' '}
+  <span className="text-yellow-300">
+    <span className="text-blue-600">Paheli</span>Job
+  </span>
+</h1>
+
           <p className="text-xl md:text-2xl mb-8 font-medium text-white/90">
             Your gateway to thousands of tech jobs, top companies, and exciting career opportunities. Start your journey today!
           </p>
