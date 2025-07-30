@@ -33,9 +33,15 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center">
-            <Link href="/" className="text-2xl font-bold text-blue-600 dark:text-blue-400 font-pacifico">
-              PaheliJob
-            </Link>
+            <Link href="/" className="block">
+  <div className="w-10 h-10 bg-white dark:bg-white-800 rounded-full flex items-center justify-center">
+    <span className="text-xl font-bold leading-none">
+      <span className="text-blue-700">P</span>
+      <span className="text-yellow-500">J</span>
+    </span>
+  </div>
+</Link>
+
           </div>
 
           <nav className="hidden md:flex items-center space-x-8">

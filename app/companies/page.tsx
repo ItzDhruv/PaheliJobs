@@ -361,9 +361,13 @@ export default function CompaniesPage() {
               </div>
             ) : (
               <div className="text-center py-12">
-                <div className="w-24 h-24 bg-gradient-to-r from-green-500 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <i className="ri-building-line text-white text-3xl w-8 h-8 flex items-center justify-center"></i>
-                </div>
+                <div className="w-24 h-24 bg-white rounded-full flex items-center justify-center mx-auto mb-6">
+  <span className="text-4xl font-bold leading-none">
+    <span className="text-blue-700">P</span>
+    <span className="text-yellow-700">J</span>
+  </span>
+</div>
+
                 <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4">
                   Select a Company
                 </h3>

@@ -21,6 +21,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        <link rel="icon" href="/favicon.ico"/>
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1168103626602127" crossOrigin="anonymous"></script>
         <meta name="google-site-verification" content="fUVjDK069ImDkI0uFWu1-uy_GYeCM_cvET7ztuLuYFc" />
         <meta property="og:title" content="PaheliJob - Find Your Dream Tech Job" />
@@ -31,7 +32,6 @@ export default function RootLayout({
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="PaheliJob - Find Your Dream Tech Job" />
         <meta name="twitter:description" content="Discover thousands of tech job opportunities in fullstack development, data science, and more. Your next career move starts here." />
-        <meta name="twitter:image" content="/assets/bg4.jpg" />
         <link rel="canonical" href="https://paheli-jobs.vercel.app/" />
       </head>
       <body className={`${inter.className} bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100`}>
