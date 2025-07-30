@@ -28,7 +28,7 @@ export default function RootLayout({
         <meta property="og:description" content="Discover thousands of tech job opportunities in fullstack development, data science, and more. Your next career move starts here." />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://paheli-jobs.vercel.app/" />
-        <meta property="og:image" content="/assets/bg4.jpg" />
+        <meta property="og:image" content="/assets/favicon.jpg" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="PaheliJob - Find Your Dream Tech Job" />
         <meta name="twitter:description" content="Discover thousands of tech job opportunities in fullstack development, data science, and more. Your next career move starts here." />
