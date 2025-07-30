@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -28,6 +27,35 @@ interface Job {
   benefits: string[];
   companyDescription: string;
 }
+
+// Company logos array
+const companyLogos = [
+  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTiK2i3U6IFCskhHepeoPbOxGb5yMeUWnVOkg&s',
+  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRY_AbrYwEx9Ry2kegwjaiU12tXdBZEx6eZGg&s',
+  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSTDYrQMTTrvfJNGoYBeAXsjwRIdGpCD3AvVw&s',
+  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRgwKGHwVlsDYqdbOaRyrlKl_YHauQ5TLnYHA&s',
+  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTGG4DvDkY2YEkM7mRlJhBGz86080vUXWimiQ&s',
+  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQTAWrtAuF2VNfNTN3qD8l2dPMwAVG5ds5QaA&s',
+  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcThWhQGaeEIZJI8fxD9xbgGAZZ3ObvKO-kenw&s',
+  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ6K9EjJeMAq_VbYAEe87u_h2p1V5z2Seua1Q&s',
+  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSoFSTRKQ_P4UQCC2NWcJw7zy5fH5M3jnC-xg&s',
+  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRh9IjNbgKJ8xqMxjM2lH49NgLRdQ44EjsyDA&s',
+  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQyWN150bkFW7HuP4a7uuf9yb8fIIM7CXEv9g&s',
+  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1G8XM5TyDrInT4X3O5K1jw2NGOQJQ9MEzgA&s',
+  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvxrJNmw8JgtVdVBhz7AfwHSH_HwWF5SLYJQ&s',
+  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS55Dgt5GHFYIqcS5M0IPvsXr84rdp76w4m1g&s',
+  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQkiDfeTlsagVKoRWx4fka4Ki1RPcuZKzAVeA&s',
+  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSTDYrQMTTrvfJNGoYBeAXsjwRIdGpCD3AvVw&s',
+  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtuhB8g9-qyuI9z7Pvf3D6OTucfftg1AvKAg&s',
+  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQTAWrtAuF2VNfNTN3qD8l2dPMwAVG5ds5QaA&s',
+  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQy8bVhD9a2wtsrrJ3wJaRxZi1PCbeuQnUKw&s'
+];
+
+// Function to get a random logo based on company name (consistent for same company)
+const getCompanyLogo = (companyName: string): string => {
+  const hash = companyName.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+  return companyLogos[hash % companyLogos.length];
+};
 
 export default function JobDetail({ jobId }: JobDetailProps) {
   const [job, setJob] = useState<Job | null>(null);
@@ -111,8 +139,22 @@ export default function JobDetail({ jobId }: JobDetailProps) {
             <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-8">
               <div className="flex items-start justify-between mb-6">
                 <div className="flex items-center space-x-4">
-                  <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center text-white font-bold text-xl">
-                    {job.company.charAt(0).toUpperCase()}
+                  <div className="w-16 h-16 bg-white border border-gray-200 dark:border-gray-700 rounded-lg flex items-center justify-center overflow-hidden">
+                    <img 
+                      src={getCompanyLogo(job.company)} 
+                      alt={`${job.company} logo`}
+                      className="w-full h-full object-cover"
+                      onError={(e) => {
+                        // Fallback to gradient with company initial if image fails to load
+                        const target = e.target as HTMLImageElement;
+                        target.style.display = 'none';
+                        const parent = target.parentElement;
+                        if (parent) {
+                          parent.className = 'w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center text-white font-bold text-xl';
+                          parent.textContent = job.company.charAt(0).toUpperCase();
+                        }
+                      }}
+                    />
                   </div>
                   <div>
                     <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">
